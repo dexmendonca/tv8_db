@@ -1,0 +1,43 @@
+{
+  "name": "tv8_db",
+  "version": "0.0.1",
+  "description": "sstart project for database",
+  "scripts": {
+    "container:start": "echo 'Iniciando Docker' && docker compose -f Container/docker-compose.yml up -d ",
+    "container:stop": "docker compose -f Container/docker-compose.yml down",
+    "v1:container:start": "echo 'Iniciando Docker' && docker-compose -f Container/docker-compose.yml up -d ",
+    "v1:container:stop": "docker-compose -f Container/docker-compose.yml down",
+    "db": "npx knex --knexfile Core/knexfile.js",
+    "db:prod": "NODE_ENV=production npx knex --knexfile Core/knexfile.js",
+    "db:dev": "NODE_ENV=development npx knex --knexfile Core/knexfile.js",
+    "db:dev:rebuild": "NODE_ENV=development yarn db:dev migrate:rollback && yarn db:dev migrate:latest && yarn db:dev seed:run && date",
+    "dbdevrebuild": "yarn db:dev:rebuild",
+    "rebuild-locks": "rm node_modules -Rf && npm i && rm node_modules -Rf && yarn install",
+    "rebuild-env": "rm Core/.env -Rf && cp Core/.env.example Core/.env"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dexmendonca/tv8_db.git"
+  },
+  "author": "André Mendonça e Silva <dexmendoncadev@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dexmendonca/tv8_db/issues"
+  },
+  "homepage": "https://github.com/dexmendonca/tv8_db#readme",
+  "dependencies": {
+    "dotenv-safe": "^8.2.0",
+    "knex": "^0.95.7",
+    "pg": "^8.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-standard": "^5.0.0"
+  }
+}

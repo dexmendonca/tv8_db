@@ -1,0 +1,32 @@
+version: '2.3'
+
+services:
+
+  tv8_app:
+    container_name: tv8_app
+    build: .
+    command: postgres -c 'max_connections=700'
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "admin123"
+      POSTGRES_DB: "tv8_app"
+      TZ: "America/Sao_Paulo"
+    ports:
+      - "5432:5432"
+    volumes:
+      - tv8_app:/var/lib/postgresql/data
+  tv8_apppgadmindev:
+    container_name: tv8_apppgadmindev
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin123"
+    ports:
+      - "6543:80"
+    volumes:
+      - tv8_apppgadmindev:/var/lib/pgadmin
+    depends_on:
+      - tv8_app 
+volumes:
+    tv8_app:      
+    tv8_apppgadmindev:      
