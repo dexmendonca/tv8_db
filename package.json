@@ -20,7 +20,7 @@
     "url": "git+https://github.com/dexmendonca/tv8_db.git"
   },
   "author": "André Mendonça e Silva <dexmendoncadev@gmail.com>",
-  "license": "Apache-2.0",
+  "license": "WTFPL",
   "bugs": {
     "url": "https://github.com/dexmendonca/tv8_db/issues"
   },
