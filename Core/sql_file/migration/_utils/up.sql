@@ -15,7 +15,7 @@ BEGIN
 END;
 $$ LANGUAGE PLPGSQL;
 
-create or replace function util_valida_cpf
+CREATE OR REPLACE FUNCTION util_valida_cpf
 (
     p_cpf in character varying, 
     p_valida_nulo in boolean default false
@@ -86,7 +86,7 @@ end;
 $$ language plpgsql;
 
 
-create or replace function util_valida_cnpj
+CREATE OR REPLACE FUNCTION util_valida_cnpj
 (
     in p_cnpj character varying, 
     in p_fg_permite_nulo boolean default false
@@ -158,7 +158,7 @@ begin
 end;
 $$ language plpgsql;
 
-create or replace function round_half_even(val numeric, prec integer)
+CREATE OR REPLACE FUNCTION round_half_even(val numeric, prec integer)
     returns numeric
 as $$
 declare
@@ -179,7 +179,7 @@ end;
 $$ language plpgsql immutable strict;
 
 
-create or replace function round_half_odd(val numeric, prec integer)
+CREATE OR REPLACE FUNCTION round_half_odd(val numeric, prec integer)
     returns numeric
 as $$
 declare
@@ -198,3 +198,37 @@ begin
     return retval;
 end;
 $$ language plpgsql immutable strict;
+
+CREATE OR REPLACE FUNCTION random_int(low INT ,high INT) 
+   RETURNS INT AS
+$$
+BEGIN
+   RETURN floor(random()* (high-low + 1) + low);
+END;
+$$ LANGUAGE 'plpgsql' STRICT;
+
+CREATE OR REPLACE FUNCTION random_bigint(low BIGINT ,high BIGINT) 
+   RETURNS BIGINT AS
+$$
+BEGIN
+   RETURN floor(random()* (high-low + 1) + low);
+END;
+$$ LANGUAGE 'plpgsql' STRICT;
+
+CREATE OR REPLACE FUNCTION random_string(length integer)
+    returns text as
+$$
+declare
+  chars text[] := '{0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}';
+  result text := '';
+  i integer := 0;
+begin
+  if length < 0 then
+    raise exception 'Given length cannot be less than 0';
+  end if;
+  for i in 1..length loop
+    result := result || chars[1+random()*(array_length(chars, 1)-1)];
+  end loop;
+  return result;
+end;
+$$ language plpgsql STRICT;
